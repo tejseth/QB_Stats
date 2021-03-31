@@ -59,6 +59,9 @@ pwaa_stats <- pwaa %>%
             mean_pwaa = mean(pwaa)) %>%
   arrange(desc(mean_pwaa))
 
+pwaa_stats_three_seasons <- pwaa_stats %>%
+  filter(seasons >= 3) %>%
+  arrange(desc(mean_pwaa))
 
 
   

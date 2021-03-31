@@ -13,8 +13,6 @@ library(ggforce)
 library(remotes)
 library(ggtext)
 
-
-
 all_help_no_teams <- all_help_no_teams %>%
   mutate(label= total_wins)
 
@@ -29,19 +27,6 @@ ind_test <- model_data[-ind, ]
 
 full_train <- xgboost::xgb.DMatrix(as.matrix(ind_train %>% select(-label)), label = as.integer(ind_train$label))
 
-set.seed(123)
-cv_pwaa <- xgboost::xgb.cv( params = params, 
-                          data = full_train, 
-                          nrounds = 2000, 
-                          nfold = 7, 
-                          showsd = T, 
-                          stratified = T, 
-                          print_every_n = 20, 
-                          early_stopping_rounds = 20, 
-                          maximize = F)
-
-
-nrounds <- 338
 params <-
   list(
     booster = "gbtree",
@@ -55,6 +40,20 @@ params <-
     max_depth = 4,
     min_child_weight = 1
   )
+
+set.seed(123)
+cv_pwaa <- xgboost::xgb.cv( params = params, 
+                          data = full_train, 
+                          nrounds = 2000, 
+                          nfold = 7, 
+                          showsd = T, 
+                          stratified = T, 
+                          print_every_n = 20, 
+                          early_stopping_rounds = 20, 
+                          maximize = F)
+
+
+nrounds <- 252
 
 pwaa_model <- xgboost::xgboost(params = params, data = full_train, nrounds = nrounds, verbose = 2)
 

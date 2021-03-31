@@ -1,4 +1,5 @@
 standings <- read_csv("http://www.habitatring.com/standings.csv")
+#standings <- read.csv("~/Downloads/standings.csv")
 
 standings <- standings %>%
   filter(season > 2005)
